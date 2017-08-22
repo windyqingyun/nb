@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block page_header %}
+   <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{url_for('static',filename='img/home-bg.jpg')}}')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>Welcome To My Blog</h1>
+              <span class="subheading"></span>
+            </div>
+         
+          {% if session['account'] %}
+          <div class="writeBlog" style="position:absolute;bottom:10px;right:50px;">
+              <a class="btn btn-primary" href="/writeBlog">WRITE BLOG</a>
+          </div>
+          {% endif %}
+
+        </div>
+        </div>
+      </div>
+    </header>
+{% endblock %}
+
+
+{% block page_content %}
+    <!-- Main Content -->
+
+      <div class="row">
+    
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="rowContent">
+          {% if blogs|count > 0 %}
+             {% for blog in blogs %}
+             <div class="post-preview">
+               <a href="showBlog/{{blog['uid']}}">
+                 <h2 class="post-title">
+                     {{blog['title']}}
+	         </h2>
+                 <h3 class="post-subtitle">
+                     {{ blog['content'] | cdot(300)}}
+                 </h3>
+               </a>
+               <p class="post-meta">Posted by
+                 <a href="#">{{ blog['account'] }}</a>
+                 on {{ blog['time'] }}
+		 {% if session['account'] == blog['account'] %}
+		 <a styly="position:absolute;right:10px" href="deleteBlog/{{blog['uid']}}">delete</a>
+               	 {% endif %}
+	      </p>
+             </div>
+             <hr>
+
+            {%endfor%}
+        
+	     {% if blogs|count >= 5 %} 
+	      <!-- Pager -->
+              <div class="clearfix">
+                <a class="btn btn-secondary float-right" href="javascript:;" onclick="more()">More &rarr;</a>
+              </div>
+             {% endif%}
+ 
+         {% else %}
+            <div class="well well-lg" > You don't have any blogs! </div>
+         {% endif%}
+         </div>
+       </div>
+    </div>
+    
+
+    <hr>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  currentPage = 1
+  currentPath = '{{ request.path}}'
+
+  function more(){
+     toPage = currentPage + 1
+     
+     $.ajax({
+        url:"/more",
+        type: 'POST',
+        data: {'page':toPage,'path':currentPath},
+        success: function (msg) {
+         addContent = '' 
+         currentAccount = '{{session['account']}}'
+        for (s in msg){
+           
+            blog = JSON.parse(msg[s])
+            content = blog.content.substring(-1,300)
+            if (content.length >= 300){
+               content += "..." 
+            }
+             
+           addContent += ' <div class="post-preview">' 
+              + '<a href="showBlog/'+blog.uid+'"> '    
+              + ' <h2 class="post-title"> '           
+              +         blog.title                    
+	      + ' </h2> '                             
+              +  '<h3 class="post-subtitle"> '         
+              +         content                   
+              +   '</h3> '                             
+              + '</a>'                                 
+              + '<p class="post-meta">Posted by     '  
+              +  ' <a href="#">'+blog.account+'</a> '   
+              +  'on '+ blog.time               
+     
+           if( currentAccount == blog.account ){
+	      addContent += ' <a styly="position:absolute;right:10px" href="deleteBlog/'+blog.uid+'">delete</a> '
+           }
+                             
+	    addContent += '</p> '                                 
+              +'</div>'                                 
+              +' <hr> '       
+           
+        } 
+            $('.clearfix').hide()
+          
+          if( msg.length >= 5 ){
+               addContent += '  <div class="clearfix"> ' 
+               + ' <a class="btn btn-secondary float-right" href="javascript:;" onclick="more()">More &rarr;</a> '
+               + ' </div>'
+        
+          }
+
+          $('.rowContent').append(addContent)
+          currentPage = toPage 
+      }    
+    });
+}
+
+</script>
+{% endblock %}
+
+

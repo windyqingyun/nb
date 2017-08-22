@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block page_header %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{url_for('static',filename='img/show.jpg')}}')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+{% endblock %}
+
+{% block page_content %}
+
+    <!-- Post Content -->
+
+
+
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+           
+	    <h1><center> {{blog['title']}} </center></h1>
+	    <hr>
+            <p><center>{{blog['time']}}</center></p>
+            <span> {{ blog['content'] }} </span>
+
+
+	  </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+{% endblock %}

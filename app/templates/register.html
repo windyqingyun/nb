@@ -1,0 +1,26 @@
+{% extends "base2.html" %}
+
+{% import "bootstrap/wtf.html" as wtf  %}
+
+{% block scripts %}
+<style>
+
+.registerForm{ 
+	margin:100px auto;
+	width:30%;
+	height:40%;
+	border:1px solid #ADADAD;
+	padding:20px;
+}
+</style>
+
+{% endblock %}
+
+
+{% block page_content %}
+
+<div class="registerForm">
+ {{ wtf.quick_form(form) }}
+</div>
+	
+{% endblock %}
