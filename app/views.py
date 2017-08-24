@@ -4,7 +4,7 @@ from flask import render_template,redirect,flash,url_for,request,session,jsonify
 from .model import User,Blog
 from .form import LoginForm,RegisterForm
 import json
-from .tools import get_md5,get_uuid,get_current_time
+from .tools import get_md5,get_uuid,get_current_time,cut_string
 from . import main
 
 @main.route('/home',methods=['GET','POST'])
@@ -48,6 +48,7 @@ def login():
 def index():
 
     existAccount = session.get('account')
+
     if existAccount is not None: 
         
         blogs = Blog().findByAccount(existAccount)
@@ -83,7 +84,7 @@ def register():
         else:
             flash('Account is exist!')
             return redirect(url_for("main.register"))
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.login'))
 
     return render_template('register.html',form=form)
 
@@ -113,17 +114,18 @@ def post():
     return render_template("post.html")
 
 
-@main.route('/saveBlog',methods=['GET','POST'])
+@main.route('/saveBlog',methods=['POST'])
 def saveBlog():
 
     uid = get_uuid()
     data = request.form
     title = data['title']
     content = data['content']
+    contentTxt = cut_string(data['contentTxt'],200)
     account = session['account']
     currentTime = get_current_time().strftime('%Y-%m-%d %H:%M:%S')
 
-    blog = Blog(uid,account,title,content,currentTime)
+    blog = Blog(uid,account,title,content,contentTxt,currentTime)
     blog.save()
 
     return redirect(url_for("main.index"))

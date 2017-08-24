@@ -1,28 +1,11 @@
 {% extends "bootstrap/base.html" %}
-{% block scripts %}
-{{ super() }}
-{{ moment.include_moment() }}
-{% endblock %}
 {% block title %}Nanshao Blog{% endblock %}
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
   <div class="container">
     <div class="navbar-header">
-    <!--   <button type="button" class="navbar-toggle"
-          data-toggle="collapse" data-target=".navbar-collapse"> </button>
-         <span class="sr-only">navigation</span>
-         <span class="icon-bar">aa</span>
-         <span class="icon-bar">bb</span>
-         <span class="icon-bar">cc</span>
- 
-           <li><a href="/">Home</a></li>
-     -->
       <a class="navbar-brand" href="/">Nanshao Blog</a>
    </div> 
-   <div class="navbar-collapse collapse">
-       <ul class="nav navbar-nav">
-       </ul>
-   </div>
   </div>
 </div>
 {% endblock %}
@@ -31,7 +14,7 @@
    {% for message in get_flashed_messages() %}
      <div class="alert alert-warning">
        <button type="button" class="close" data-dismiss="alert">&times;</button>
-       {{ message }}
+        {{message}}
      </div>
    {% endfor %}
 {% block page_content %}{% endblock %}

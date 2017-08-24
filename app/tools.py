@@ -11,3 +11,11 @@ def get_uuid():
 
 def get_current_time():
     return datetime.datetime.now()
+
+def cut_string(s,lens):
+    slen = len(s)
+    if slen <= lens:
+        return s
+    else :
+        return s[0:lens]+"..."
+

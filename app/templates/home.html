@@ -38,7 +38,7 @@
                      {{blog['title']}}
 	         </h2>
                  <h3 class="post-subtitle">
-                     {{ blog['content'] | cdot(300)}}
+                     {{ blog['contentTxt']}}
                  </h3>
                </a>
                <p class="post-meta">Posted by
@@ -91,10 +91,6 @@
         for (s in msg){
            
             blog = JSON.parse(msg[s])
-            content = blog.content.substring(-1,300)
-            if (content.length >= 300){
-               content += "..." 
-            }
              
            addContent += ' <div class="post-preview">' 
               + '<a href="showBlog/'+blog.uid+'"> '    
@@ -102,7 +98,7 @@
               +         blog.title                    
 	      + ' </h2> '                             
               +  '<h3 class="post-subtitle"> '         
-              +         content                   
+              +         blog.contentTxt                   
               +   '</h3> '                             
               + '</a>'                                 
               + '<p class="post-meta">Posted by     '  

@@ -34,12 +34,13 @@ class Blog():
 
     blogCol = db.blog	
 
-    def __init__(self,uid="",account="",title="",content="",time=""):
+    def __init__(self,uid="",account="",title="",content="",contentTxt="",time=""):
 		
         self.uid = uid
         self.account = account
         self.title = title
         self.content = content
+        self.contentTxt = contentTxt
         self.time = time
 
     def save(self):	

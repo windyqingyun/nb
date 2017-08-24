@@ -1,26 +1,30 @@
 {% extends "base2.html" %}
-
-{% import "bootstrap/wtf.html" as wtf  %}
-
-{% block scripts %}
-<style>
-
-.registerForm{ 
-	margin:100px auto;
-	width:30%;
-	height:40%;
-	border:1px solid #ADADAD;
-	padding:20px;
-}
-</style>
-
-{% endblock %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-
-<div class="registerForm">
- {{ wtf.quick_form(form) }}
-</div>
+    <div class="container" >
+       <div class="row" style="margin-top:20%">
+          <form id="registForm" method="POST" class="form-horizontal col-sm-offset-4">
+             <div class="col-md-6" style="border:1px solid #ccc;">  
+                <div style="padding:10%">
+	        {{ form.hidden_tag() }}
+                <div class="form-group">  
+                 {{ wtf.form_field(form.account) }}
+                </div>  
+                <div class="form-group">  
+                 {{ wtf.form_field(form.password) }}
+                </div>  
+                <div class="form-group">  
+                 {{ wtf.form_field(form.cpassword) }}
+                </div>  
+  	        <div class="form-group" style="margin-top:10%;" >
+  	            {{ form.submit(class_="btn btn-default",style="margin-left:40%;") }} 
+                </div>
+               </div>
+             </div>
+	 </form>
+     </div>   
+   </div>
 	
 {% endblock %}
+

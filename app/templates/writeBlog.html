@@ -20,6 +20,12 @@
 {% block page_content  %}
     <!-- Main Content -->
     <div class="container" style="border:5px soild red">
+       <div class="alertMsg" style="display:none">
+         <div class="alert alert-primary">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <span id="alertMsg">asdsd</span>
+         </div>
+       </div>
       <div class="row"  >
         <div class="col-lg-8 col-md-10 mx-auto">
           <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
@@ -29,7 +35,7 @@
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Title</label>
-                <input type="text" class="form-control" placeholder="Title" id="title" name="title" required data-validation-required-message="Please enter your name.">
+                <input type="text" class="form-control" placeholder="Title" maxlength="25" id="title" name="title">
                 <p class="help-block text-danger"></p>
               </div>
             </div>
@@ -46,18 +52,25 @@
                 <input type="tel" class="form-control" placeholder="Phone Number" id="phone" required data-validation-required-message="Please enter your phone number.">
                 <p class="help-block text-danger"></p>
               </div>
-            </div>  -->
+            </div>  
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Content</label>
                 <textarea rows="15" class="form-control" placeholder="Content" id="content" name="content" required data-validation-required-message="Please enter your contnet."></textarea>
                 <p class="help-block text-danger"></p>
               </div>
-            </div>
+            </div> -->
+            
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                   <script id="editor" type="text/plain"></script>
+              </div>
+            </div> 
+            
             <br>
             <div id="success"></div>
             <div class="form-group">
-              <button type="submit" class="btn btn-info">Save</button>
+              <button type="button" onclick="saveBlog()"class="btn btn-info">Save</button>
             </div>
           </form>
         </div>
@@ -65,4 +78,49 @@
     </div>
 
     <hr>
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.config.js') }}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}"> </script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+
+<script type="text/javascript">
+    var ue = UE.getEditor('editor', {
+	serverUrl: "/upload/",
+        
+        autoHeightEnabled: true,
+
+        autoFloatEnabled: true,
+
+        initialFrameWidth: 690,
+
+        initialFrameHeight:483
+    });
+
+    function saveBlog(){
+        title = $('#title').val()
+        content = ue.getContent()
+        contentTxt = ue.getContentTxt()      
+        
+        if(title==''){
+          $('#alertMsg').text('Please input your title!!')
+          $('.alertMsg').show()
+          return
+        }
+        
+
+     $.ajax({
+        url:"/saveBlog",
+        type: 'POST',
+        data: {'title':title,'content':content,'contentTxt':contentTxt},
+        success: function (msg) { 
+            window.location.href = '{{url_for("main.index")}}'
+        }
+      });
+
+   
+    }
+</script>
+
 {% endblock %}
