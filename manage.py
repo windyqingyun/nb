@@ -15,4 +15,4 @@ app.config.from_object(DevConfig)
 #	return dict(app=app)
 
 if __name__ == '__main__':
-	manager.run()
+	app.run(host='0.0.0.0',port=8090)

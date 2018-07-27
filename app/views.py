@@ -20,14 +20,12 @@ def home():
 
 @main.route('/login',methods=['GET','POST'])
 def login():
-    
     form = LoginForm()
-
+    
     if form.validate_on_submit():
         user = User(form.account.data.strip(),get_md5(form.password.data))
-
+        
         result = user.find()
-
         if result is None :
             flash("wrong account or password!")
             return redirect(url_for("main.login"))
@@ -39,7 +37,6 @@ def login():
             
             for blog in blogs:
                 blogArr.append(blog)
-            
             return render_template('home.html',blogs=blogArr)
 
     return render_template("login.html",form=form)
