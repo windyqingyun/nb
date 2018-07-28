@@ -21,7 +21,7 @@ def home():
 @main.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm()
-    
+    print 111
     if form.validate_on_submit():
         user = User(form.account.data.strip(),get_md5(form.password.data))
         
@@ -43,9 +43,7 @@ def login():
 
 @main.route('/',methods=['GET','POST'])
 def index():
-
     existAccount = session.get('account')
-
     if existAccount is not None: 
         
         blogs = Blog().findByAccount(existAccount)
@@ -127,7 +125,7 @@ def saveBlog():
 
     return redirect(url_for("main.index"))
 
-@main.route('/showBlog/<uid>/',methods=['GET','POST'])
+@main.route('/showBlog/<uid>',methods=['GET','POST'])
 def showBlog(uid):
     
     if uid is None:
@@ -137,7 +135,7 @@ def showBlog(uid):
         return render_template('showBlog.html',blog=blog)
     
     
-@main.route('/deleteBlog/<uid>/',methods=['GET','POST'])
+@main.route('/deleteBlog/<uid>',methods=['GET','POST'])
 def deleteBlog(uid):
     
     existAccount = session.get('account',None)

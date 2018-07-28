@@ -1,7 +1,7 @@
 import pymongo
 
 
-conn = pymongo.MongoClient(host='localhost',port=27017)
+conn = pymongo.MongoClient(host='localhost',port=27017,connect=False)
 db = conn.nb
 
 

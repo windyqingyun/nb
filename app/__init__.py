@@ -33,4 +33,4 @@ def cdot_template_filter(s,lens):
 
 
 
-from . import views,error
+from . import views,error,model
