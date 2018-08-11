@@ -31,15 +31,14 @@ def get_user():
 
 @main.route('/login',methods=['GET','POST'])
 def login():
-    
     form = LoginForm()
-    print form.validate_on_submit()
+
     if form.validate_on_submit():
         user = User(form.account.data.strip(),get_md5(form.password.data))
-
+        
         result = user.find()
 
-        if result is None:
+        if result is None :
             flash("wrong account or password!")
             return redirect(url_for("main.login"))
         else:
@@ -50,16 +49,14 @@ def login():
             
             for blog in blogs:
                 blogArr.append(blog)
-            
-            return render_template('home.html', blogs=blogArr)
+
+            return render_template('home.html',blogs=blogArr)
 
     return render_template("login.html", form=form)
 
 @main.route('/',methods=['GET','POST'])
 def index():
-
     existAccount = session.get('account')
-
     if existAccount is not None: 
         
         blogs = Blog().findByAccount(existAccount)
@@ -139,7 +136,6 @@ def saveBlog():
     blog.save()
 
     return redirect(url_for("main.index"))
-
 
 @main.route('/showBlog/<uid>',methods=['GET','POST'])
 def showBlog(uid):

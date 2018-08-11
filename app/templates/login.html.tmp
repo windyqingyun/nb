@@ -1,0 +1,26 @@
+{% extends "base2.html" %}
+
+{% block page_content %}
+    <div class="container" >
+       <div class="row" style="margin-top:20%">
+          <form method="POST" class="form-horizontal col-sm-offset-4">
+             <div class="col-md-6" style="border:1px solid #ccc;">  
+                <div style="padding:20px">
+	        {{ form.hidden_tag() }}
+                <div class="form-group">  
+	        {{ form.account.label }} {{  form.account(class_="form-control",maxlength="20") }}
+
+                </div>  
+                <div class="form-group">  
+	        {{ form.password.label }} {{ form.password(class_="form-control",maxlength="20") }}
+                </div>  
+  	        <div class="form-group" style="margin-top:10%;" >
+  	            {{ form.submit(class_="btn btn-default",style="margin-left:20%;") }}
+   	            <a href="/register"  class="btn btn-default" style="margin-right:20%;float:right"> register </a>
+                </div>
+               </div>
+             </div>
+	 </form>
+     </div>   
+   </div>
+{% endblock %}

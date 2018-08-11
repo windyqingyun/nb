@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 {%  extends "base2.html"  %}
+=======
+{% extends "base2.html" %}
+>>>>>>> 3f07c01aa47702a3d2b8200dc3cd02052541d9d3
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
     <div class="container" >
        <div class="row" style="margin-top:20%">
+<<<<<<< HEAD
           <form id="loginForm" method="POST" class="form-horizontal col-sm-offset-4">
              <div class="col-md-6" style="border:1px solid #ccc;">
+=======
+          <form method="POST" class="form-horizontal col-sm-offset-4">
+	    <div class="col-md-6" style="border:1px solid #ccc;">
+>>>>>>> 3f07c01aa47702a3d2b8200dc3cd02052541d9d3
                 <div style="padding:10%">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
@@ -15,8 +24,13 @@
                      {{ wtf.form_field(form.password) }}
                     </div>
                      <div class="form-group" style="margin-top:10%;" >
+<<<<<<< HEAD
                     {{ form.submit(class_="btn btn-default",style="margin-left:40%;") }}
                          <a href="/register">register</a>
+=======
+		      {{ form.submit(class_="btn btn-default",style="margin-left:20%;") }}
+                       <a href="/register"  class="btn btn-default" style="margin-right:20%;float:right"> register </a>
+>>>>>>> 3f07c01aa47702a3d2b8200dc3cd02052541d9d3
                     </div>
                </div>
              </div>
