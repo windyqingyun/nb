@@ -22,10 +22,10 @@ class User():
 
     def findAccount(self):
         return self.userCol.find_one({"account":self.account})
-	
+
     def update(self,newPassword):
         self.userCol.update({"account":self.account},{"$set":{"password":newPassword}})
-	
+
     def delete(self):
         self.userCol.remove({"account":self.account})
 
@@ -35,7 +35,7 @@ class Blog():
     blogCol = db.blog	
 
     def __init__(self,uid="",account="",title="",content="",contentTxt="",time=""):
-		
+
         self.uid = uid
         self.account = account
         self.title = title
@@ -46,7 +46,6 @@ class Blog():
     def save(self):	
         blogDict = self.__dict__
         self.blogCol.insert(blogDict)
-	
 
     def findByAccount(self,account,page=1):
         s = 0 
@@ -65,7 +64,7 @@ class Blog():
 
     def update(self):
         pass
-	
+
     def deleteById(self,uid):
         self.blogCol.remove({"uid":uid})
 

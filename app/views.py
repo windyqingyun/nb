@@ -1,11 +1,15 @@
 # coding=utf-8
 
-from flask import render_template,redirect,flash,url_for,request,session,jsonify
+from flask import render_template,redirect,flash,url_for,session,jsonify
 from .model import User,Blog
 from .form import LoginForm,RegisterForm
 import json
 from .tools import get_md5,get_uuid,get_current_time,cut_string
 from . import main
+from flask import request, make_response
+import hashlib
+from dispatcher import MsgDispatcher
+
 
 @main.route('/home',methods=['GET','POST'])
 def home():
@@ -16,22 +20,29 @@ def home():
         blogArr.append(blog)
 
     return render_template('home.html',blogs=blogArr)
-    
+
+
+@main.route('/getUser', methods=['GET', 'POST'])
+def get_user():
+    data = request.form
+    request.get_json()
+    return jsonify({"name":"zhangsan","age":"2222"})
+
 
 @main.route('/login',methods=['GET','POST'])
 def login():
     
     form = LoginForm()
-
+    print form.validate_on_submit()
     if form.validate_on_submit():
         user = User(form.account.data.strip(),get_md5(form.password.data))
 
         result = user.find()
 
-        if result is None :
+        if result is None:
             flash("wrong account or password!")
             return redirect(url_for("main.login"))
-        else :
+        else:
             session['account'] = user.account
         
             blogs = Blog().findByAccount(user.account)
@@ -40,9 +51,9 @@ def login():
             for blog in blogs:
                 blogArr.append(blog)
             
-            return render_template('home.html',blogs=blogArr)
+            return render_template('home.html', blogs=blogArr)
 
-    return render_template("login.html",form=form)
+    return render_template("login.html", form=form)
 
 @main.route('/',methods=['GET','POST'])
 def index():
@@ -74,8 +85,7 @@ def register():
     if form.validate_on_submit():
         account = form.account.data.strip()	
         password = get_md5(form.password.data)
-	
-        user = User(account,password)	
+        user = User(account, password)
         result = user.findAccount()
     
         if result is  None:
@@ -130,9 +140,10 @@ def saveBlog():
 
     return redirect(url_for("main.index"))
 
-@main.route('/showBlog/<uid>/',methods=['GET','POST'])
+
+@main.route('/showBlog/<uid>',methods=['GET','POST'])
 def showBlog(uid):
-    
+    print 111111
     if uid is None:
         return redirect(url_for('main.index'))
     else :
@@ -140,7 +151,7 @@ def showBlog(uid):
         return render_template('showBlog.html',blog=blog)
     
     
-@main.route('/deleteBlog/<uid>/',methods=['GET','POST'])
+@main.route('/deleteBlog/<uid>',methods=['GET','POST'])
 def deleteBlog(uid):
     
     existAccount = session.get('account',None)
@@ -171,3 +182,29 @@ def moreBlog():
 
     return jsonify(blogArr)
 
+
+@main.route('/wx', methods=['GET', 'POST'])
+def wechat_auth():  # 处理微信请求的处理函数，get方法用于认证，post方法取得微信转发的数据
+    if request.method == 'GET':
+        token = 'nanshao'
+        data = request.args
+        signature = data.get('signature', '')
+        timestamp = data.get('timestamp', '')
+        nonce = data.get('nonce', '')
+        echostr = data.get('echostr', '')
+        s = [timestamp, nonce, token]
+        s.sort()
+        s = ''.join(s)
+
+        if (hashlib.sha1(s).hexdigest() == signature):
+            return make_response(echostr)
+    else:
+        rec = request.stream.read()  # 接收消息
+        dispatcher = MsgDispatcher(rec)
+        data = dispatcher.dispatch()
+        with open("./debug.log", "a") as file:
+            file.write(data)
+            file.close()
+        response = make_response(data)
+        response.content_type = 'application/xml'
+        return response

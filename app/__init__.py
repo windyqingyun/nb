@@ -1,9 +1,7 @@
 from flask import Flask,Blueprint
-from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 
 bootstrap = Bootstrap()
-moment = Moment()
 main=Blueprint('main',__name__)
 
 app = Flask(__name__)
@@ -11,12 +9,10 @@ app = Flask(__name__)
 def initApp():
 
     bootstrap.init_app(app)
-    moment.init_app(app)
- 
+
     app.register_blueprint(main)	
 
     return app
-
 
 
 @app.template_filter('cdot')
