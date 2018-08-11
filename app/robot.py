@@ -5,10 +5,25 @@ import json
 
 
 def get_turing_response(req=""):
-    url = "http://www.tuling123.com/openapi/api"
-    secretcode = "嘿嘿，这个就不说啦"
-    response = requests.post(url=url, json={"key": secretcode, "info": req, "userid": 12345678})
-    return json.loads(response.text)['text'] if response.status_code == 200 else ""
+    url = "http://openapi.tuling123.com/openapi/api/v2"
+    secretcode = "416ce46d776b4a08b95189b8867621f9"
+    userId = "307353"
+    response = requests.post(url=url, json={
+        "reqType": 0,
+        "perception": {
+            "inputText": {
+                "text": req
+            }
+        },
+        "userInfo": {
+            "apiKey": secretcode,
+            "userId": userId
+        }
+    })
+    try:
+        return json.loads(response.text)['results'][0]['values']['text']
+    except:
+        return ""
 
 
 def get_qingyunke_response(req=""):
@@ -25,9 +40,9 @@ def get_response_by_keyword(keyword):
         musicurl='http://204.11.1.34:9999/dl.stream.qqmusic.qq.com/C400001oO7TM2DE1OE.m4a?vkey=3DFC73D67AF14C36FD1128A7ABB7247D421A482EBEDA17DE43FF0F68420032B5A2D6818E364CB0BD4EAAD44E3E6DA00F5632859BEB687344&guid=5024663952&uin=1064319632&fromtag=66'
         result = {"type": "music", "content": {"title": "80000", "description":"有个男歌手姓巴，他的女朋友姓万，于是这首歌叫80000", "url": musicurl, "hqurl": musicurl}}
     elif '关于' in keyword:
-        items = [{"title": "关于我", "description":"喜欢瞎搞一些脚本", "picurl":"https://avatars1.githubusercontent.com/u/12973402?s=460&v=4", "url":"https://github.com/guoruibiao"},
-                 {"title": "我的博客", "description":"收集到的，瞎写的一些博客", "picurl":"http://avatar.csdn.net/0/8/F/1_marksinoberg.jpg", "url":"http://blog.csdn.net/marksinoberg"},
-                 {"title": "薛定谔的猫", "description": "副标题有点奇怪，不知道要怎么设置比较好","picurl": "https://www.baidu.com/img/bd_logo1.png","url": "http://www.baidu.com"}
+        items = [{"title": "关于我", "description":"喜欢瞎搞一些脚本", "picurl":"https://avatars1.githubusercontent.com/u/12973402?s=460&v=4", "url":"https://www.aponet.cn"},
+                 {"title": "我的博客", "description":"收集到的，瞎写的一些博客", "picurl":"http://avatar.csdn.net/0/8/F/1_marksinoberg.jpg", "url":"https://www.aponet.cn"},
+                 {"title": "薛定谔的猫", "description": "副标题有点奇怪，不知道要怎么设置比较好","picurl": "https://www.baidu.com/img/bd_logo1.png","url": "https://www.aponet.cn"}
                  ]
         result = {"type": "news", "content": items}
     else:

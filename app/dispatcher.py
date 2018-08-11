@@ -97,8 +97,11 @@ class MsgHandler(object):
                 result = self.newsHandle(items)
             # 这里还可以添加更多的拓展内容
             else:
-                # response = get_turing_response(self.msg.content)
-                result = template.format(self.msg.user, self.msg.master, self.time, response['content'])
+                content = response['content']
+                response = get_turing_response(self.msg.content)
+                if response:
+                    content = response
+                result = template.format(self.msg.user, self.msg.master, self.time, content)
             # with open("./debug.log", 'a') as f:
             #     f.write(response['content'] + '~~' + result)
             #     f.close()
