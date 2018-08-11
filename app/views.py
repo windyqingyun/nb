@@ -10,6 +10,11 @@ from flask import request, make_response
 import hashlib
 from dispatcher import MsgDispatcher
 
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 
 @main.route('/home',methods=['GET','POST'])
 def home():
