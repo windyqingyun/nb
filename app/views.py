@@ -196,6 +196,11 @@ def wechat_auth():  # 处理微信请求的处理函数，get方法用于认证�
             return make_response(echostr)
     else:
         rec = request.stream.read()  # 接收消息
+        try:
+            rec = rec.decode('utf-8')
+        except Exception as e:
+            rec = rec.decode('gb18030', errors='ignore')
+
         dispatcher = MsgDispatcher(rec)
         data = dispatcher.dispatch()
         with open("./debug.log", "a") as file:

@@ -46,7 +46,6 @@ class MsgDispatcher(object):
 
     def dispatch(self):
         self.result = ""  # 统一的公众号出口数据
-        print(self.msg.msgtype)
         if self.msg.msgtype == "text":
             self.result = self.handler.textHandle()
         elif self.msg.msgtype == "voice":
@@ -98,12 +97,14 @@ class MsgHandler(object):
                 result = self.newsHandle(items)
             # 这里还可以添加更多的拓展内容
             else:
-                response = get_turing_response(self.msg.content)
-                result = template.format(self.msg.user, self.msg.master, self.time, response)
-            #with open("./debug.log", 'a') as f:
-            #   f.write(response['content'] + '~~' + result)
-            #    f.close()
+                # response = get_turing_response(self.msg.content)
+                result = template.format(self.msg.user, self.msg.master, self.time, response['content'])
+            # with open("./debug.log", 'a') as f:
+            #     f.write(response['content'] + '~~' + result)
+            #     f.close()
+
         except Exception as e:
+            print(e)
             with open("./debug.log", 'a') as f:
                f.write("text handler:"+str(e.message))
                f.close()
