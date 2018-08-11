@@ -46,6 +46,7 @@ class MsgDispatcher(object):
 
     def dispatch(self):
         self.result = ""  # 统一的公众号出口数据
+        print(self.msg.msgtype)
         if self.msg.msgtype == "text":
             self.result = self.handler.textHandle()
         elif self.msg.msgtype == "voice":
