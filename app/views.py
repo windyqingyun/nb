@@ -222,8 +222,13 @@ def pay_notify():
     支付宝支付后回调接口  创建订单
     :return:
     """
-    print('json',request.json)
-    print('form',request.form)
-    print('arg',request.args)
+    from alipay.pay import AliPay
+    data = request.form
+    # alipay = AliPay()
+    for key in data:
+        print(key, data[key])
 
     return 'success'
+
+
+
