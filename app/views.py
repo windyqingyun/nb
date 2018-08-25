@@ -225,4 +225,4 @@ def pay_notify():
     data = request.data
     print(data)
 
-    return jsonify({code: '1', msg: 'success'})
+    return jsonify({'code': '1', 'msg': 'success'})
