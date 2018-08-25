@@ -214,3 +214,15 @@ def wechat_auth():  # 处理微信请求的处理函数，get方法用于认证�
         response = make_response(data)
         response.content_type = 'application/xml'
         return response
+
+
+@main.route('/order/pay_notify', methods=['POST'])
+def pay_notify():
+    """
+    支付宝支付后回调接口  创建订单
+    :return:
+    """
+    data = request.data
+    print(data)
+
+    return jsonify({code: '1', msg: 'success'})
