@@ -216,13 +216,14 @@ def wechat_auth():  # 处理微信请求的处理函数，get方法用于认证�
         return response
 
 
-@main.route('/order/pay_notify', methods=['POST'])
+@main.route('/order/pay_notify', methods=['GET'])
 def pay_notify():
     """
     支付宝支付后回调接口  创建订单
     :return:
     """
-    data = request.data
-    print(data)
+    print('json',request.json)
+    print('form',request.form)
+    print('arg',request.args)
 
     return jsonify({'code': '1', 'msg': 'success'})
