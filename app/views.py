@@ -222,7 +222,7 @@ def pay_notify():
     支付宝支付后回调接口  创建订单
     :return:
     """
-    from alipay.pay import AliPay
+    # from alipay.pay import AliPay
     data = request.form
     # alipay = AliPay()
     for key in data:
