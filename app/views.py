@@ -214,3 +214,7 @@ def wechat_auth():  # 处理微信请求的处理函数，get方法用于认证�
         response = make_response(data)
         response.content_type = 'application/xml'
         return response
+
+@main.route('/getStatus',methods=['POST'])
+def get_status():
+    return '2';
