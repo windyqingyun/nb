@@ -229,6 +229,6 @@ def pay_notify():
 
     return 'success'
 
-@main.route('/getStatus',methods=['POST'])
+@main.route('/getStatus',methods=['POST','GET'])
 def get_status():
     return '2';
